@@ -14,9 +14,13 @@ dependencies:
   flutter_screenutil: ^5.9.0
   injectable: ^2.3.2
   an_core_ui:
-    path: ../an_core_ui
+    git:
+      url: https://github.com/ahmednasser74/an_core_ui.git
+      ref: main
   an_core_network:
-    path: ../an_core_network
+    git:
+      url: https://github.com/ahmednasser74/an_core_network.git
+      ref: main
 
 dev_dependencies:
   build_runner: ^2.1.11
