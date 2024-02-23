@@ -59,7 +59,7 @@ class DropdownView<T extends AppDropdownBaseModel<dynamic>> extends StatefulWidg
 }
 
 class _DropdownViewState<T extends AppDropdownBaseModel<dynamic>> extends State<DropdownView<T>> with MultiSelectActions<T> {
-  int selectedIndex = 0;
+  int? selectedIndex;
   final TextEditingController searchController = TextEditingController();
   List<T> _multiSelectedValues = <T>[];
 
