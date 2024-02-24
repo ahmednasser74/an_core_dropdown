@@ -126,6 +126,7 @@ class _AppDropdownState<T extends AppDropdownBaseModel<T>> extends State<AppDrop
 
   @override
   Widget build(BuildContext context) {
+    dropDownFieldController.text = widget.controller.value?.textDisplay ?? widget.initDisplayText ?? '';
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -144,7 +145,7 @@ class _AppDropdownState<T extends AppDropdownBaseModel<T>> extends State<AppDrop
           suffixIcon: buildISuffixIcon(),
           // padding: EdgeInsets.symmetric(horizontal: 12.w),
         ),
-        if (widget.list == null || widget.list!.isEmpty) Text('${widget.labelText} list is empty', style: TextStyle(color: Colors.red, fontSize: 10.sp)),
+        if (widget.list == null || widget.list!.isEmpty) AppText('${widget.labelText} ${'listIsEmpty'.translate}', color: Colors.red, size: 10.sp),
       ],
     );
   }

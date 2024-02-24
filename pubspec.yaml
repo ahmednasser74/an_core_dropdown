@@ -13,6 +13,7 @@ dependencies:
   flutter_bloc: ^8.1.4
   flutter_screenutil: ^5.9.0
   injectable: ^2.3.2
+  dartz: ^0.10.1
   an_core_ui:
     path: ../an_core_ui
     # git:

@@ -1,10 +1,11 @@
 import 'package:an_core_network/an_core_network.dart';
+import 'package:dartz/dartz.dart';
 
 import 'app_drop_down_request_model.dart';
 
 /// call backFunction
 // typedef AppDropDownCallBack<T extends AppDropdownBaseModel<T>> = Future<Either<Failure, AppResponseListResult<T>>> Function(AppDropDownRequestModel requestModel);
-typedef AppDropDownCallBack<T extends AppDropdownBaseModel<T>> = Future<AppResponseListResult<T>> Function(AppDropDownRequestModel requestModel);
+typedef AppDropDownCallBack<T extends AppDropdownBaseModel<T>> = Future<Either<Failure, AppResponseListResult<T>>> Function(AppDropDownRequestModel requestModel);
 
 class AppDropdownController<T extends AppDropdownBaseModel<T>> {
   AppDropdownController();
