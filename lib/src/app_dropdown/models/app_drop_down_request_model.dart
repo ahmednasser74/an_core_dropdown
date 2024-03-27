@@ -11,7 +11,7 @@ class AppDropDownRequestModel extends RequestModel {
   final String? search;
 
   @override
-  List<Object?> get props => [page, search];
+  List<Object?> get props => [page, search, identityHashCode(this)];
 
   @override
   Future toJson() async => <String, dynamic>{

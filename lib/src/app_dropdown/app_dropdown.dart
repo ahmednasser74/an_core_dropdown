@@ -97,14 +97,22 @@ class _AppDropdownState<T extends AppDropdownBaseModel<T>> extends State<AppDrop
     });
     widget.controller.setValue = setValue;
     widget.controller.changeList = changeList;
+    widget.controller.refreshList = refreshList;
     super.initState();
+  }
+
+  void refreshList() {
+    if (widget.caller != null) {
+      widget.appDropdownBloc!.add(AppDropdownLoadEvent<T>(caller: widget.caller!));
+    }
+    dropDownFieldController.clear();
   }
 
   void setValue(T? value) {
     WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
+      // if (mounted) dropDownFieldController.text = value?.textDisplay ?? '';
+      // if (value != null && widget.controller.value != value) widget.controller.value = value;
       if (widget.onItemSelected != null && value != null && widget.controller.value != value) widget.onItemSelected!(value);
-      if (mounted) dropDownFieldController.text = value?.textDisplay ?? '';
-      if (value != null && widget.controller.value != value) widget.controller.value = value;
     });
   }
 
@@ -126,7 +134,7 @@ class _AppDropdownState<T extends AppDropdownBaseModel<T>> extends State<AppDrop
 
   @override
   Widget build(BuildContext context) {
-    dropDownFieldController.text = widget.controller.value?.textDisplay ?? widget.initDisplayText ?? '';
+    // dropDownFieldController.text = widget.controller.value?.textDisplay ?? widget.initDisplayText ?? '';
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[

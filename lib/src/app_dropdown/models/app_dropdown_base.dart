@@ -13,7 +13,7 @@ class AppDropdownController<T extends AppDropdownBaseModel<T>> {
   T? _value;
 
   List<T?>? values;
-  Function? refresh;
+  Function? refreshList;
 
   T? get value => _value;
 

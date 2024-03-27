@@ -74,8 +74,6 @@ class AppDropDownFetchState<T extends AppDropdownBaseModel<T>> extends State<App
     super.initState();
   }
 
-  // void refreshList() => _appDropdownBloc.add(AppDropdownLoadEvent<T>(caller: widget.caller));
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AppDropdownBloc>(
