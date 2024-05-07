@@ -28,6 +28,7 @@ class AppDropdownController<T extends AppDropdownBaseModel<T>> {
 
 abstract class AppDropdownBaseModel<T> extends BaseResponse<T> {
   String get textDisplay;
+  int get dropDownId => 0;
 }
 
 class AppDropdownItem extends AppDropdownBaseModel<AppDropdownItem> {

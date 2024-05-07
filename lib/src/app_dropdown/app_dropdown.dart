@@ -27,8 +27,10 @@ import 'drop_down_view.dart';
     }
  */
 
+// ignore: must_be_immutable
 class AppDropdown<T extends AppDropdownBaseModel<T>> extends StatefulWidget {
   AppDropdown({
+    super.key,
     required this.controller,
     required this.list,
     this.multiSelectItems,
@@ -45,7 +47,7 @@ class AppDropdown<T extends AppDropdownBaseModel<T>> extends StatefulWidget {
     this.translate = true,
     this.initDisplayText,
     this.appDropdownBloc,
-    this.hasInitValue = true,
+    this.initFirstItem = true,
     this.hasSearch = false,
     this.isMultiSelect = false,
     this.isOptional = false,
@@ -67,7 +69,7 @@ class AppDropdown<T extends AppDropdownBaseModel<T>> extends StatefulWidget {
   final bool readOnly;
   List<T>? list;
   final String? initDisplayText;
-  final bool hasInitValue;
+  final bool initFirstItem;
   final bool isMultiSelect;
 
   /// translate the text in list
@@ -91,13 +93,14 @@ class _AppDropdownState<T extends AppDropdownBaseModel<T>> extends State<AppDrop
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.initDisplayText != null) dropDownFieldController.text = widget.initDisplayText!;
-      if (widget.initDisplayText == null && widget.list != null && widget.list!.isNotEmpty && widget.hasInitValue) {
+      if (widget.initDisplayText == null && widget.list != null && widget.list!.isNotEmpty && widget.initFirstItem) {
         dropDownFieldController.text = widget.list!.first.textDisplay;
       }
     });
     widget.controller.setValue = setValue;
     widget.controller.changeList = changeList;
     widget.controller.refreshList = refreshList;
+
     super.initState();
   }
 
@@ -113,6 +116,7 @@ class _AppDropdownState<T extends AppDropdownBaseModel<T>> extends State<AppDrop
       // if (mounted) dropDownFieldController.text = value?.textDisplay ?? '';
       // if (value != null && widget.controller.value != value) widget.controller.value = value;
       if (widget.onItemSelected != null && value != null && widget.controller.value != value) widget.onItemSelected!(value);
+      dropDownFieldController.text = widget.controller.value?.textDisplay ?? widget.initDisplayText ?? '';
     });
   }
 
@@ -121,7 +125,7 @@ class _AppDropdownState<T extends AppDropdownBaseModel<T>> extends State<AppDrop
       if (mounted) {
         setState(() {
           widget.list = changedList;
-          if (changedList != null && changedList.isNotEmpty && widget.hasInitValue) {
+          if (changedList != null && changedList.isNotEmpty && widget.initFirstItem) {
             widget.controller.value = changedList.first;
           } else {
             dropDownFieldController.clear();
@@ -134,7 +138,6 @@ class _AppDropdownState<T extends AppDropdownBaseModel<T>> extends State<AppDrop
 
   @override
   Widget build(BuildContext context) {
-    // dropDownFieldController.text = widget.controller.value?.textDisplay ?? widget.initDisplayText ?? '';
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -145,6 +148,7 @@ class _AppDropdownState<T extends AppDropdownBaseModel<T>> extends State<AppDrop
           autoFocus: widget.autoFocus,
           maxLines: 1,
           fontSize: 12.sp,
+          labelFontSize: 12.sp,
           hint: widget.hintText,
           dispose: false,
           readOnly: true,
@@ -279,5 +283,11 @@ class _AppDropdownState<T extends AppDropdownBaseModel<T>> extends State<AppDrop
       return maxHeight;
     }
     return height;
+  }
+
+  @override
+  void dispose() {
+    dropDownFieldController.clear();
+    super.dispose();
   }
 }

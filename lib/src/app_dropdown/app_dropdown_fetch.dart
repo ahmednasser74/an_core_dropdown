@@ -18,7 +18,7 @@ import 'index.dart';
  */
 
 class AppDropDownFetch<T extends AppDropdownBaseModel<T>> extends StatefulWidget {
-  const AppDropDownFetch({
+  AppDropDownFetch({
     Key? key,
     required this.title,
     required this.caller,
@@ -31,7 +31,8 @@ class AppDropDownFetch<T extends AppDropdownBaseModel<T>> extends StatefulWidget
     this.readOnly = false,
     this.isPaginated = false,
     this.refreshList = false,
-    this.hasInitValue = true,
+    this.initFirstItem = false,
+    this.initItemId,
     this.hasSearch = true,
     this.isOptional = false,
     this.initDisplayText,
@@ -49,10 +50,11 @@ class AppDropDownFetch<T extends AppDropdownBaseModel<T>> extends StatefulWidget
   final Function(T)? onAutomationSelectFirstItem;
   final bool readOnly;
   final bool isPaginated;
-  final bool hasInitValue;
+  final bool initFirstItem;
+  final int? initItemId;
   final bool refreshList;
   final bool hasSearch;
-  final String? initDisplayText;
+  String? initDisplayText;
   final void Function(List<T>)? onMultiSelectionChanged;
   final List<T>? multiSelectInitValues;
   final bool isOptional;
@@ -97,7 +99,7 @@ class AppDropDownFetchState<T extends AppDropdownBaseModel<T>> extends State<App
             readOnly: widget.readOnly,
             scrollController: scrollController,
             initDisplayText: widget.initDisplayText,
-            hasInitValue: widget.hasInitValue,
+            initFirstItem: widget.initFirstItem,
             caller: widget.caller,
             hasSearch: widget.hasSearch,
             isMultiSelect: widget.isMultiSelect,
@@ -125,11 +127,16 @@ class AppDropDownFetchState<T extends AppDropdownBaseModel<T>> extends State<App
         }
       }
 
-      if (list != null && list!.isNotEmpty && widget.hasInitValue) {
+      if (list != null && list!.isNotEmpty && widget.initFirstItem) {
         widget.controller.value = list!.first;
         if (widget.onAutomationSelectFirstItem != null) {
           widget.onAutomationSelectFirstItem!(list!.first);
         }
+      }
+
+      if (list != null && list!.isNotEmpty && widget.initItemId != null) {
+        final item = list!.firstWhere((element) => element.dropDownId == widget.initItemId, orElse: () => list!.first);
+        widget.controller.value = item;
       }
     }
   }
