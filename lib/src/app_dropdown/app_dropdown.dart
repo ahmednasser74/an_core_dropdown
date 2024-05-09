@@ -47,7 +47,7 @@ class AppDropdown<T extends AppDropdownBaseModel<T>> extends StatefulWidget {
     this.translate = true,
     this.initDisplayText,
     this.appDropdownBloc,
-    this.initFirstItem = true,
+    this.initFirstItem = false,
     this.hasSearch = false,
     this.isMultiSelect = false,
     this.isOptional = false,
@@ -92,8 +92,13 @@ class _AppDropdownState<T extends AppDropdownBaseModel<T>> extends State<AppDrop
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (widget.initDisplayText != null) dropDownFieldController.text = widget.initDisplayText!;
-      if (widget.initDisplayText == null && widget.list != null && widget.list!.isNotEmpty && widget.initFirstItem) {
+      final hasInitDisplayText = widget.initDisplayText != null;
+      final hasList = widget.list != null && widget.list!.isNotEmpty;
+      final initFirstItem = widget.initFirstItem;
+
+      if (hasInitDisplayText) dropDownFieldController.text = widget.initDisplayText!;
+
+      if (!hasInitDisplayText && hasList && initFirstItem) {
         dropDownFieldController.text = widget.list!.first.textDisplay;
       }
     });
@@ -115,7 +120,11 @@ class _AppDropdownState<T extends AppDropdownBaseModel<T>> extends State<AppDrop
     WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
       // if (mounted) dropDownFieldController.text = value?.textDisplay ?? '';
       // if (value != null && widget.controller.value != value) widget.controller.value = value;
-      if (widget.onItemSelected != null && value != null && widget.controller.value != value) widget.onItemSelected!(value);
+
+      //todo check this if faced any issue in onItemSelected
+      // if (widget.onItemSelected != null && value != null && widget.controller.value != value) {
+      //   widget.onItemSelected!(value);
+      // }
       dropDownFieldController.text = widget.controller.value?.textDisplay ?? widget.initDisplayText ?? '';
     });
   }
@@ -131,13 +140,16 @@ class _AppDropdownState<T extends AppDropdownBaseModel<T>> extends State<AppDrop
             dropDownFieldController.clear();
           }
         });
-        if (widget.initDisplayText != null) dropDownFieldController.text = widget.initDisplayText!;
+        if (widget.initDisplayText != null) {
+          dropDownFieldController.text = widget.initDisplayText!;
+        }
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    print('dropDownFieldController.text ${dropDownFieldController.text}');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
