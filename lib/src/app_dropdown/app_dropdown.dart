@@ -149,7 +149,10 @@ class _AppDropdownState<T extends AppDropdownBaseModel<T>> extends State<AppDrop
 
   @override
   Widget build(BuildContext context) {
-    print('dropDownFieldController.text ${dropDownFieldController.text}');
+    WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
+      if (widget.controller.value != null) dropDownFieldController.text = widget.controller.value!.textDisplay;
+    });
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
