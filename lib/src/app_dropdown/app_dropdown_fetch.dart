@@ -37,6 +37,7 @@ class AppDropDownFetch<T extends AppDropdownBaseModel<T>> extends StatefulWidget
     this.isOptional = false,
     this.initDisplayText,
     this.onMultiSelectionChanged,
+    this.hideDropdownIfListEmpty = false,
     this.multiSelectInitValues,
   }) : super(key: key);
 
@@ -58,6 +59,7 @@ class AppDropDownFetch<T extends AppDropdownBaseModel<T>> extends StatefulWidget
   final void Function(List<T>)? onMultiSelectionChanged;
   final List<T>? multiSelectInitValues;
   final bool isOptional;
+  final bool hideDropdownIfListEmpty;
 
   @override
   AppDropDownFetchState<T> createState() => AppDropDownFetchState<T>();
@@ -107,6 +109,7 @@ class AppDropDownFetchState<T extends AppDropdownBaseModel<T>> extends State<App
             onMultiSelectionChanged: widget.onMultiSelectionChanged,
             multiSelectInitValues: widget.multiSelectInitValues,
             isOptional: widget.isOptional,
+            hideDropdownIfListEmpty: widget.hideDropdownIfListEmpty,
           );
         },
       ),

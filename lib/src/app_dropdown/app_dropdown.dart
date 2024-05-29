@@ -51,6 +51,7 @@ class AppDropdown<T extends AppDropdownBaseModel<T>> extends StatefulWidget {
     this.hasSearch = false,
     this.isMultiSelect = false,
     this.isOptional = false,
+    this.hideDropdownIfListEmpty = false,
     this.caller,
     this.onMultiSelectionChanged,
     this.multiSelectInitValues,
@@ -81,6 +82,7 @@ class AppDropdown<T extends AppDropdownBaseModel<T>> extends StatefulWidget {
   final void Function(List<T>)? onMultiSelectionChanged;
   List<T>? multiSelectInitValues;
   final bool isOptional;
+  final bool hideDropdownIfListEmpty;
 
   @override
   _AppDropdownState<T> createState() => _AppDropdownState<T>();
@@ -152,7 +154,10 @@ class _AppDropdownState<T extends AppDropdownBaseModel<T>> extends State<AppDrop
     WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
       if (widget.controller.value != null) dropDownFieldController.text = widget.controller.value!.textDisplay;
     });
-
+    //* hide text field if list is empty and hideDropdownIfListEmpty is true
+    if (widget.hideDropdownIfListEmpty && widget.list != null && widget.list!.isEmpty) {
+      return const SizedBox.shrink();
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
