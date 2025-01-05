@@ -155,7 +155,7 @@ class _AppDropdownState<T extends AppDropdownBaseModel<T>> extends State<AppDrop
       if (widget.controller.value != null) dropDownFieldController.text = widget.controller.value!.textDisplay;
     });
     //* hide text field if list is empty and hideDropdownIfListEmpty is true
-    if (widget.hideDropdownIfListEmpty && widget.list != null && widget.list!.isEmpty) {
+    if (widget.hideDropdownIfListEmpty && (widget.list == null || widget.list!.isEmpty)) {
       return const SizedBox.shrink();
     }
     return Column(
